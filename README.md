@@ -1,238 +1,65 @@
-# 🔐 Cryptography Performance Benchmark in Virtualized Environments
+# Benchmark de Criptografia em Máquinas Virtuais
 
-[![Python](https://img.shields.io/badge/Python-3.7.3-blue.svg)](https://python.org)
-[![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
-[![Research](https://img.shields.io/badge/Research-Scientific%20Initiation-orange.svg)](https://unip.br)
+Programa de linha de comando para medir o desempenho de operações criptográficas em máquinas virtuais com diferentes quantidades de CPUs e memória. O repositório também armazena planilhas XLSX produzidas durante os experimentos.
 
-> **Análise Comparativa de Desempenho de Algoritmos Criptográficos em Ambientes Virtualizados**  
-> *Pesquisa de Iniciação Científica - Universidade Paulista (UNIP)*
+Repositório: [KaykyCrespo/INICIACAO_CIENTIFICA-Analise-de-desempenho-em-VM-S-comparando-a-criptografia-RSA](https://github.com/KaykyCrespo/INICIACAO_CIENTIFICA-Analise-de-desempenho-em-VM-S-comparando-a-criptografia-RSA)
 
-## 📊 Visão Geral
+## Funcionalidades
 
-Esta pesquisa realizou uma análise sistemática e quantitativa do desempenho de algoritmos criptográficos assimétricos em ambientes virtualizados, revelando que **Ed25519 é 250x mais rápido que RSA 2048 bits** na geração de chaves.
+- Executa benchmarks de Ed25519 e X25519.
+- Executa benchmarks de ECDSA e ECDH com as curvas NIST P-256, P-384 e P-521.
+- Executa benchmarks RSA com chaves de 1024, 2048 e 4096 bits.
+- Mede tempo de execução, variação de memória do processo e uso de CPU.
+- Permite exportar os resultados da sessão em CSV ou XLSX.
+- Inclui planilhas XLSX de execuções anteriores em seis configurações de VM.
 
-### 🎯 Principais Descobertas
+## Tecnologias
 
-- **Ed25519/X25519**: Superiores em todas as métricas (tempo, CPU, memória)
-- **RSA**: Degradação não-linear com aumento do tamanho da chave
-- **Curvas NIST**: Performance intermediária, mas superiores ao RSA
-- **Paralelização**: RSA se beneficia mais, mas não compensa diferença absoluta
+- Python 3
+- [cryptography](https://cryptography.io/): primitivas e algoritmos criptográficos.
+- [psutil](https://psutil.readthedocs.io/): informações de CPU, memória e processos.
+- [openpyxl](https://openpyxl.readthedocs.io/): exportação de planilhas XLSX.
 
-## 🚀 Quick Start
+## Requisitos e execução
 
-### Pré-requisitos
-
-```bash
-Python 3.7.3+
-Oracle VirtualBox 6.1+ (para replicar ambiente original)
-```
-
-### Instalação
+Use Python 3 e, para reproduzir os experimentos, uma máquina virtual cuja quantidade de CPUs e memória tenha sido configurada no hipervisor. No terminal, na pasta do projeto, instale as dependências:
 
 ```bash
-git clone https://github.com/[seu-usuario]/cryptography-benchmark
-cd cryptography-benchmark
-pip install -r requirements.txt
+python -m pip install cryptography psutil openpyxl
 ```
 
-### Execução Básica
+Inicie o menu interativo com:
 
 ```bash
-# Executar benchmark completo
-python src/benchmark_framework.py
-
-# Executar apenas algoritmos específicos
-python src/benchmark_framework.py --algorithms ed25519,rsa_2048
-
-# Análise dos dados existentes
-python src/analysis/generate_report.py
+python BenchMarck.py
 ```
 
-## 📁 Estrutura do Projeto
+No menu, escolha um grupo de algoritmos ou a opção de benchmark completo. Os resultados podem ser exportados pelas opções CSV e XLSX. Os arquivos exportados são criados no diretório de onde o programa foi iniciado.
 
-```
-cryptography-benchmark/
-├── 📄 README.md
-├── 📄 requirements.txt
-├── 📄 LICENSE
-├── 📁 src/
-│   ├── 🐍 benchmark_framework.py      # Framework principal
-│   ├── 📁 algorithms/
-│   │   ├── 🐍 rsa_impl.py            # Implementação RSA
-│   │   ├── 🐍 ecc_impl.py            # Curvas Elípticas
-│   │   └── 🐍 nist_curves.py         # Curvas NIST
-│   ├── 📁 analysis/
-│   │   ├── 🐍 data_processor.py      # Processamento de dados
-│   │   ├── 🐍 visualizer.py          # Geração de gráficos
-│   │   └── 🐍 generate_report.py     # Relatórios automáticos
-│   └── 📁 utils/
-│       ├── 🐍 system_monitor.py      # Monitoramento do sistema
-│       └── 🐍 config.py              # Configurações
-├── 📁 data/
-│   ├── 📁 raw_results/               # Dados brutos coletados
-│   ├── 📁 processed/                 # Dados processados
-│   └── 📁 sample/                    # Dados de exemplo
-├── 📁 docs/
-│   ├── 📄 methodology.md             # Metodologia detalhada
-│   ├── 📄 results_analysis.md        # Análise dos resultados
-│   └── 📁 images/                    # Gráficos e imagens
-└── 📁 tests/
-    ├── 🐍 test_framework.py          # Testes unitários
-    └── 🐍 test_algorithms.py         # Testes dos algoritmos
+## Estrutura
+
+```text
+.
+|-- BenchMarck.py       # Aplicação e implementação dos benchmarks
+|-- LICENSE             # Licença MIT
+|-- README.md           # Documentacao do projeto
+|-- 2CPU_0.5GB/         # Planilhas: VM com 2 CPUs e aproximadamente 0,5 GB
+|-- 2CPU_1.0GB/         # Planilhas: VM com 2 CPUs e aproximadamente 1,0 GB
+|-- 4CPU_0.5GB/         # Planilhas: VM com 4 CPUs e aproximadamente 0,5 GB
+|-- 4CPU_1.0GB/         # Planilhas: VM com 4 CPUs e aproximadamente 1,0 GB
+|-- 6CPU_0.5GB/         # Planilhas: VM com 6 CPUs e aproximadamente 0,5 GB
+`-- 6CPU_1.0GB/         # Planilhas: VM com 6 CPUs e aproximadamente 1,0 GB
 ```
 
-## 📈 Resultados Principais
+Cada pasta de configuração contém planilhas XLSX de execuções anteriores. Os nomes dos arquivos registram a quantidade de CPUs, a memória detectada e a data e hora da exportação.
 
-### Performance de Geração de Chaves (ms)
+## Observações sobre os experimentos
 
-| Algoritmo | 2 cores | 4 cores | 6 cores | Speedup |
-|-----------|---------|---------|---------|---------|
-| **Ed25519** | 0.099 | 0.277 | 0.095 | **1.3x** |
-| **X25519** | 0.092 | 0.647 | 0.085 | **1.2x** |
-| **RSA 2048** | 31.8 | 325.5 | 45.0 | **1.6x** |
-| **RSA 4096** | 686.8 | 2661.1 | 800.0 | **1.8x** |
+- Configure CPUs e memória da VM no hipervisor antes de executar o programa. A opção de configuração do menu não limita efetivamente os recursos do sistema operacional; os valores escolhidos servem como parâmetros informativos do programa e dos arquivos exportados.
+- Os resultados dependem do sistema operacional, do hipervisor, da carga da máquina e das versões das bibliotecas. Compare execuções feitas em condições equivalentes.
+- As planilhas são resultados brutos de execuções individuais, não uma análise estatística consolidada. Não interprete uma única execução como conclusão geral sobre um algoritmo.
+- As versões exatas das dependências usadas para gerar as planilhas existentes não estão registradas neste repositório.
 
-### Consumo de Recursos
+## Autoria e licenca
 
-| Algoritmo | RAM (MB) | CPU (%) | Eficiência |
-|-----------|----------|---------|------------|
-| **Ed25519** | 2.8 | 9 | ⭐⭐⭐⭐⭐ |
-| **X25519** | 2.5 | 8 | ⭐⭐⭐⭐⭐ |
-| **NIST P-256** | 5.2 | 12 | ⭐⭐⭐⭐ |
-| **RSA 2048** | 21.4 | 38 | ⭐⭐ |
-| **RSA 4096** | 38.2 | 45 | ⭐ |
-
-## 🔬 Metodologia
-
-### Ambiente de Teste
-- **Virtualização**: Oracle VirtualBox 6.1
-- **SO**: Windows 11 Professional (64 bits)
-- **Configurações**: 2, 4, 6 núcleos × 0.5GB, 1.0GB RAM
-- **Repetições**: 20 execuções por configuração
-- **Biblioteca**: cryptography v36.0.1
-
-### Métricas Coletadas
-- ⏱️ **Tempo de execução** (precisão de microssegundos)
-- 🧠 **Uso de memória** (picos durante operação)
-- ⚡ **Utilização de CPU** (percentual por núcleo)
-- ✅ **Taxa de sucesso** (operações completadas)
-
-## 📊 Visualizações
-
-### Gráfico de Performance
-![Performance Comparison](docs/images/performance_comparison.png)
-
-### Análise de Recursos
-![Resource Usage](docs/images/resource_analysis.png)
-
-## 🛠️ Uso Avançado
-
-### Configuração Personalizada
-
-```python
-# config.py
-BENCHMARK_CONFIG = {
-    'algorithms': ['ed25519', 'x25519', 'rsa_2048', 'rsa_4096'],
-    'cpu_cores': [2, 4, 6],
-    'memory_configs': ['512MB', '1GB'],
-    'repetitions': 20,
-    'timeout': 60,
-    'output_format': 'csv'
-}
-```
-
-### Adicionando Novos Algoritmos
-
-```python
-# algorithms/custom_algorithm.py
-from .base_algorithm import BaseAlgorithm
-
-class CustomAlgorithm(BaseAlgorithm):
-    def __init__(self):
-        super().__init__("custom_algo")
-    
-    def generate_keys(self):
-        # Implementação personalizada
-        pass
-    
-    def sign(self, data, private_key):
-        # Implementação de assinatura
-        pass
-```
-
-## 📚 Documentação
-
-- 📖 [Metodologia Completa](docs/methodology.md)
-- 📊 [Análise de Resultados](docs/results_analysis.md)
-- 🔧 [Guia de Configuração](docs/configuration.md)
-- 🧪 [Reproduzindo Experimentos](docs/reproduction_guide.md)
-
-## 🤝 Contribuições
-
-Contribuições são bem-vindas! Por favor, veja nosso [Guia de Contribuição](CONTRIBUTING.md).
-
-### Como Contribuir
-1. Fork o projeto
-2. Crie uma branch para sua feature (`git checkout -b feature/nova-feature`)
-3. Commit suas mudanças (`git commit -am 'Adiciona nova feature'`)
-4. Push para a branch (`git push origin feature/nova-feature`)
-5. Abra um Pull Request
-
-## 📜 Licença
-
-Este projeto está licenciado sob a Licença MIT - veja o arquivo [LICENSE](LICENSE) para detalhes.
-
-## 📖 Citação
-
-Se você usar este trabalho em sua pesquisa, por favor cite:
-
-```bibtex
-@misc{andrade2025cryptobenchmark,
-  title={Análise Comparativa de Desempenho de Algoritmos Criptográficos em Ambientes Virtualizados},
-  author={Andrade, Caio Pacheco and Santos, Kayky Crespo},
-  year={2025},
-  institution={Universidade Paulista - UNIP},
-  type={Iniciação Científica},
-  url={https://github.com/[seu-usuario]/cryptography-benchmark}
-}
-```
-
-## 👥 Autores
-
-- **Caio Pacheco Andrade** - *Pesquisador Principal* - [GitHub](https://github.com/caiopa22)
-- **Kayky Crespo Santos** - *Pesquisador Principal* - [GitHub](https://github.com/KaykyCrespo)
-
-## 🎓 Instituição
-
-**Universidade Paulista (UNIP)**  
-Vice-Reitoria de Pós-Graduação e Pesquisa  
-Programa de Iniciação Científica e Desenvolvimento Tecnológico e Inovação
-
-## 📞 Contato
-
-- 📧 Email: [caio.email@unip.br](mailto:caio.email@unip.br)
-- 📧 Email: [kaykycrespo9@gmail.com](mailto:kaykycrespo9@gmail.com)
-- 🌐 Site: [https://unip.br](https://unip.br)
-
-## 🔗 Links Relacionados
-
-- [Relatório Final (PDF)](docs/relatorio_final.pdf)
-- [Apresentação](docs/apresentacao.pdf)
-- [Dados Brutos](data/raw_results/)
-- [Biblioteca Cryptography](https://cryptography.io/)
-
----
-
-<div align="center">
-
-**⭐ Se este projeto foi útil para você, considere dar uma estrela!**
-
-[![Star History Chart](https://api.star-history.com/svg?repos=[seu-usuario]/cryptography-benchmark&type=Date)](https://star-history.com/#[seu-usuario]/cryptography-benchmark&Date)
-
-</div>
-
----
-
-> 💡 **Dica**: Este framework pode ser facilmente adaptado para avaliar novos algoritmos criptográficos, incluindo implementações pós-quânticas como CRYSTALS-Kyber e FALCON.
-
-*Última atualização: Janeiro 2025*
+Autoria indicada no arquivo de licença: Kayky Crespo dos Santos. O projeto está sob a licença MIT; consulte [LICENSE](LICENSE).
